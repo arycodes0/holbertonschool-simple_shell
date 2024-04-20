@@ -12,8 +12,8 @@ int main(int ac, char **av,  char **env)
 	char *pointer = NULL, **tokens = NULL;
 	int flag;
 	size_t n = 0;
-	void av;
-	void ac;
+	(void) av;
+	(void) ac;
 
 	while (1)
 	{
@@ -22,7 +22,7 @@ int main(int ac, char **av,  char **env)
 
 		flag = getline(&pointer, &n, stdin);
 
-		//Victor, here goes the if statement to handle EOF//
+		/* Victor, here goes the if statement to handle EOF */
 
 		if (pointer[0] == '\n' || pointer[0] == ' ')
 		{
