@@ -8,9 +8,9 @@
  *
  */
 
-void execute_command(char **tokens, char *pointer, char **env)
+int execute_command(char **tokens, char *pointer, char **env)
 {
-	 unsigned int e = 0;
+	unsigned int e = 0;
 	pid_t child_pid;
 	int status;
 
@@ -18,35 +18,42 @@ void execute_command(char **tokens, char *pointer, char **env)
 	{
 		free_array(tokens);
 		free(pointer);
-		exit(0);
+		return (0);
 	}
 
 	if (strcmp(tokens[0], "env") == 0)
 	{
-		while (env[i])
+		while (env[e])
 		{
 			write(1, env[e], _strlen(env[e]));
 			write(1, "\n", 1);
 			e++;
 		}
-		return;
+		return (1);
 	}
 
 	child_pid = fork();
 	if (child_pid == -1)
+	{
 		perror("child process failed");
+		return (-1);
+	}
 	else if (child_pid == 0)
 	{
-		if (execvp(tokens[0], tokens) == -1)
+		if (execve(tokens[0], tokens, env) == -1)
 		{
-			perror("execvp");
+			perror("execve");
 			free_array(tokens);
 			free(pointer);
+			free_array(env);
 			exit(EXIT_FAILURE);
 		}
 	}
 else
 	{
-		wait(&status);
+	wait(&status);
 	}
+
+	return (1);
 }
+
