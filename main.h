@@ -8,5 +8,6 @@
 
 /* PROTOTYPES */
 int main(int ac, char **av,  char **env);
+int execute_command(char **tokens, char *pointer, char **env);
 
 #endif
