@@ -22,8 +22,6 @@ int main(int ac, char **av,  char **env)
 
 		flag = getline(&pointer, &n, stdin);
 
-		/* Victor, here goes the if statement to handle EOF */
-		// Check if EOF is reached or an error occurred
         if (flag == -1 && feof(stdin)) {
             printf("\n"); // Print a newline for better formatting
             break; // Exit the loop
@@ -39,7 +37,7 @@ int main(int ac, char **av,  char **env)
 		}
 
 		tokens = tokenization(pointer, " \n");
-		comp_exec(tokens, pointer, env);
+		execute_command(tokens, pointer, env);
 	}
 	return (0);
 }
