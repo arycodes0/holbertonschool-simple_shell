@@ -22,13 +22,13 @@ int main(int ac, char **av,  char **env)
 
 		flag = getline(&pointer, &n, stdin);
 
-        if (flag == -1 && feof(stdin)) {
-            printf("\n"); // Print a newline for better formatting
-            break; // Exit the loop
-        } else if (flag == -1) {
-            perror("getline"); // Print an error message if getline fails
-            break; // Exit the loop
-        }
+		if (flag == -1 && feof(stdin)) {
+			printf("\n"); /* Print a newline for better formatting */
+			break; /* Exit the loop */
+		} else if (flag == -1) {
+			perror("getline"); /* Print an error message if getline fails */
+			/* break; and Exit the loop */
+		}
 		if (pointer[0] == '\n' || pointer[0] == ' ')
 		{
 			free(pointer);
@@ -37,6 +37,13 @@ int main(int ac, char **av,  char **env)
 		}
 
 		tokens = tokenization(pointer, " \n");
+		/* Below we check if the command is "exit" */
+		if (strcmp(tokens[0], "exit") == 0)
+		{
+			free(tokens);
+			free(pointer);
+			exit(0); /* Here we exit the shell */
+		}
 		execute_command(tokens, pointer, env);
 	}
 	return (0);
