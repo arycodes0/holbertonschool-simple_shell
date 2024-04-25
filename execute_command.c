@@ -41,7 +41,7 @@ int execute_command(char **tokens, char *pointer, char **env)
 		if (execve(tokens[0], tokens, env) == -1) /*El error esta en este if */
 		{
 			perror("execve");
-			free(*tokens);
+			free_array(tokens);
 			free(pointer);
 			exit(EXIT_FAILURE);
 		}
@@ -123,3 +123,5 @@ char *command_path(char *command, char **env)
 	free(path_copy);
 	return (NULL);
 }
+
+
