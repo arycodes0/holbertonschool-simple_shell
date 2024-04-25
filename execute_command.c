@@ -47,7 +47,6 @@ int execute_command(char **tokens, char *pointer, char **env)
 		}
 	}
 			free(*tokens);
-			free(pointer);
 	return (1);
 }
 
