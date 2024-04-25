@@ -12,8 +12,11 @@ void free_env(char **env)
 	while (env[i] != NULL)
 	{
 		free(env[i]);
+		printf("Este es el free que va antes en el free_env");
 		i++;
 	}
+	printf("Esta en freeenv, encima");
 	free(env);
+	printf("Esta en freeenv, debajo");
 }
 

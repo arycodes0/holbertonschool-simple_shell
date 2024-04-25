@@ -14,10 +14,13 @@
 #include <sys/wait.h> /* We use this for the wait */
 
 /* PROTOTYPES */
-int main(int ac, char **av,  char **env);
+int main(int ac, char **av);
 int execute_command(char **tokens, char *pointer, char **env);
 char **tokenization(char *str, char *delim);
 void free_env(char **env);
 char *command_path(char *command, char **env);
+void free_array(char **tokens);
+
+extern char **environ;
 
 #endif

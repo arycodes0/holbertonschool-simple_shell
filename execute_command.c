@@ -29,6 +29,8 @@ int execute_command(char **tokens, char *pointer, char **env)
 			write(1, "\n", 1);
 			e++;
 		}
+		free(tokens);
+		free(pointer);
 		return (1);
 	}
 	child_pid = fork();
@@ -39,12 +41,10 @@ int execute_command(char **tokens, char *pointer, char **env)
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(tokens[0], tokens, env) == -1)
+		if (execve(tokens[0], tokens, env) == -1) /*El error esta en este if */
 		{
 			perror("execve");
-			free(tokens);
-			free(pointer);
-			free_env(env);
+			free(*tokens);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -52,15 +52,16 @@ int execute_command(char **tokens, char *pointer, char **env)
 	{
 		wait(&status);
 	}
-
 	return (1);
 }
+
 /**
  * tokenization - This function tokenizes a string
  * @str: The string to tokenize
  * @delim: The delimiter characters
  * Return: Array of tokens
- * We #define above to specify the max num of tokens and the max lenght of each token.
+ * We #define above to specify the max num
+ *  of tokens and the max lenght of each token.
  */
 char **tokenization(char *str, char *delim)
 {
@@ -90,14 +91,16 @@ char *command_path(char *command, char **env)
 	char *path_copy = strdup(path);
 	char *token = strtok(path_copy, ":");
 
-	(void) env;
+	(void)env;
 
-	while (!token) /* While token is NULL */
+	while (token != NULL)
 	{
 		char *full_path = malloc(strlen(token) + strlen(command) + 2);
+
 		if (full_path == NULL)
 		{
 			perror("malloc");
+			printf("Este esta command_path, encima de freepathcopy");
 			free(path_copy);
 			return (NULL);
 		}
@@ -106,14 +109,16 @@ char *command_path(char *command, char **env)
 
 		if (access(full_path, X_OK) == 0)
 		{
+			printf("Esta en command_path, debajo de fullpath");
 			free(path_copy);
+
 			return (full_path);
 		}
-
+		printf("Esta en command_path, encima de fullpath");
 		free(full_path);
 		token = strtok(NULL, ":");
 	}
-
+	printf("Esta en command_path, al final del file de command_path");
 	free(path_copy);
 	return (NULL);
 }
