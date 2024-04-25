@@ -45,6 +45,7 @@ int execute_command(char **tokens, char *pointer, char **env)
 			free(pointer);
 			exit(EXIT_FAILURE);
 		}
+		exit(98);
 	}
 			free(*tokens);
 	return (1);

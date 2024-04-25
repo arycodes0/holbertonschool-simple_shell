@@ -21,7 +21,7 @@ int main(int ac, char **av)
 
 		flag = getline(&pointer, &n, stdin);
 
-		if (flag == -1 && feof(stdin))
+		if (flag == -1)
 		{
 			/* printf("\n"); Print a newline for better formatting */
 			break; /* Exit the loop */
