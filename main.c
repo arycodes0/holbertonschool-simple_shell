@@ -23,7 +23,7 @@ int main(int ac, char **av)
 
 		if (flag == -1 && feof(stdin))
 		{
-			printf("\n"); /* Print a newline for better formatting */
+			/* printf("\n"); Print a newline for better formatting */
 			break; /* Exit the loop */
 		} else if (flag == -1)
 		{
@@ -43,7 +43,7 @@ int main(int ac, char **av)
 			free(pointer);
 			exit(0); /* Here we exit the shell */
 		}
-		execute_command(tokens, pointer, environ);
+		execute_command(tokens, environ);
 	}
 	return (0);
 }

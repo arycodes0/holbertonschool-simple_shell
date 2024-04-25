@@ -4,20 +4,17 @@
 /**
  * execute_command - Comparing and executing command
  * @tokens: The tokens array
- * @pointer: The command string
  * @env: Environment variables
  * Return: 1 succ, -1 if fails
  */
-int execute_command(char **tokens, char *pointer, char **env)
+int execute_command(char **tokens,  char **env)
 {
 	unsigned int e = 0;
 	pid_t child_pid;
-	int status;
 
 	if (strcmp(tokens[0], "exit") == 0)
 	{
-		free(tokens);
-		free(pointer);
+		free(*tokens);
 		return (0);
 	}
 
@@ -29,8 +26,7 @@ int execute_command(char **tokens, char *pointer, char **env)
 			write(1, "\n", 1);
 			e++;
 		}
-		free(tokens);
-		free(pointer);
+		free(*tokens);
 		return (1);
 	}
 	child_pid = fork();
@@ -47,10 +43,6 @@ int execute_command(char **tokens, char *pointer, char **env)
 			free(*tokens);
 			exit(EXIT_FAILURE);
 		}
-	}
-	else
-	{
-		wait(&status);
 	}
 	return (1);
 }
