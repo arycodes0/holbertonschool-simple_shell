@@ -2,6 +2,38 @@
 #define MAX_TOKENS 69
 #define MAX_TOKEN_LEN 100
 /**
+ * run_command - Runs the command
+ * @tokens: The tokens array
+ * @sta: status struct
+ * @env: Environment variables
+ * Return: 1 succ, -1 if fails
+ */
+void run_command(char **tokens,  struct stat sta, char **env)
+{
+	char **temp;
+	unsigned int e = 0;
+		if (tokens[0][0] != '/')
+		{
+			temp = command_path(tokens[0]);
+			for (e = 0; temp[e] != NULL; e++)
+			{
+				if (stat(temp[e], &sta) == 0 && sta.st_mode & S_IXUSR)
+				{
+					free(tokens[0]);
+					tokens[0] = strdup(temp[e]);
+				}
+			}
+		}
+		if (execve(tokens[0], tokens, env) == -1)
+		{
+			perror("execve");
+			free_array(tokens);
+			exit(EXIT_FAILURE);
+		}
+}
+
+
+/**
  * execute_command - Comparing and executing command
  * @tokens: The tokens array
  * @env: Environment variables
@@ -10,7 +42,6 @@
 int execute_command(char **tokens, char **env)
 {
 	unsigned int e = 0;
-	char **temp;
 	struct stat sta;
 
 	pid_t child_pid;
@@ -33,24 +64,7 @@ int execute_command(char **tokens, char **env)
 	}
 	else if (child_pid == 0)
 	{
-		if (tokens[0][0] != '/')
-		{
-			temp = command_path(tokens[0]);
-			for (e = 0; temp[e] != NULL; e++)
-			{
-				if (stat(temp[e], &sta) == 0 && sta.st_mode & S_IXUSR)
-				{
-					free(tokens[0]);
-					tokens[0] = strdup(temp[e]);
-				}
-			}
-		}
-		if (execve(tokens[0], tokens, env) == -1)
-		{
-			perror("execve");
-			free_array(tokens);
-			exit(EXIT_FAILURE);
-		}
+		run_command(tokens, sta, env);
 		free_array(tokens);
 
 		exit(98);

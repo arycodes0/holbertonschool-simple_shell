@@ -40,7 +40,7 @@ int main(int ac, char **av)
 			free(pointer);
 			exit(0); /* Here we exit the shell */
 		}
-		execute_command(tokens,environ);
+		execute_command(tokens, environ);
 	}
 	return (0);
 }
