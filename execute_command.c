@@ -166,5 +166,7 @@ char *get_env(char *var_name)
 
 			}
 		}
+	
+	}
 	return (NULL);
 }
