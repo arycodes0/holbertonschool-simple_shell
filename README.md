@@ -1,4 +1,4 @@
-# Simple Shell
+ Simple Shell
 
 ![Shell](https://upload.wikimedia.org/wikipedia/commons/1/1d/Animated_GNU_Bash_Unix_Shell_Prompt.gif)
 
@@ -152,3 +152,5 @@ $
 ### License
 
 :green_heart: This project is licensed under the Holberton School Sofware Engineering Program. :green_heart:
+
+![flowchart](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJVMuQ4BqpriNhfztEorrcJM3Dsacu7fAITMQfg0U90vzGUVbuGg4zyjo2ldL8DRNw0l3PMk4kqYtJ7swQwQKM215DYQ7V7GNmdJMcOxFYpkMGvRePwIqOeYaEOMscH_Fw7-wbeEQ4EvVFR_OVWw54n2E0wGTIZyErCvd-KW4Md00WEVCn_cIr3uaaakNg/w648-h307/Screenshot%202024-04-26%20at%202.57.15%E2%80%AFAM.png)
