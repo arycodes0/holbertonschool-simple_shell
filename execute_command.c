@@ -10,6 +10,9 @@
 int execute_command(char **tokens, char **env)
 {
 	unsigned int e = 0;
+	char **temp;
+	struct stat sta;
+
 	pid_t child_pid;
 
 	if (strcmp(tokens[0], "env") == 0)
@@ -30,14 +33,26 @@ int execute_command(char **tokens, char **env)
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(tokens[0], tokens, env) == -1) /*El error esta en este if */
+		if (tokens[0][0] != '/')
+		{
+			temp = command_path(tokens[0]);
+			for (e = 0; temp[e] != NULL; e++)
+			{
+				if (stat(temp[e], &sta) == 0 && sta.st_mode & S_IXUSR)
+				{
+					free(tokens[0]);
+					tokens[0] = strdup(temp[e]);
+				}
+			}
+		}
+		if (execve(tokens[0], tokens, env) == -1)
 		{
 			perror("execve");
 			free_array(tokens);
 			exit(EXIT_FAILURE);
 		}
 		free_array(tokens);
-		
+
 		exit(98);
 	}
 	else
@@ -71,48 +86,76 @@ char **tokenization(char *str, char *delim)
 
 	return (tokens);
 }
+
 /**
- * command_path - This function gets the full path of a command
- * @command: The command to find
- * @env: The environment variables
- * Return: The full path of the command if succ, NULL if fail
+ * command_path - This function handles path
+ * @command: command to join to path
+ *
+ * Return: An array of strings
  */
-char *command_path(char *command, char **env)
+char **command_path(char *command)
 {
-	char *path = getenv("PATH");
-	char *path_copy = strdup(path);
-	char *token = strtok(path_copy, ":");
+	char *directory2;
+	char **directory;
+	char *path;
+	char *path2;
+	char *token;
+	int i;
+	int count;
 
-	(void)env;
-
-	while (token != NULL)
+	count = 1;
+	path = get_env("PATH");
+	path2 = strdup(path);
+	token = strtok(path2, ":");
+	for (i = 0; path[i]; i++)
 	{
-		char *full_path = malloc(strlen(token) + strlen(command) + 2);
-
-		if (full_path == NULL)
-		{
-			perror("malloc");
-			printf("Este esta command_path, encima de freepathcopy");
-			free(path_copy);
-			return (NULL);
-		}
-
-		sprintf(full_path, "%s/%s", token, command);
-
-		if (access(full_path, X_OK) == 0)
-		{
-			printf("Esta en command_path, debajo de fullpath");
-			free(path_copy);
-
-			return (full_path);
-		}
-		printf("Esta en command_path, encima de fullpath");
-		free(full_path);
+		if (path[i] == ':')
+			count++;
+	}
+	directory = malloc(sizeof(char *) * (count + 1));
+	for (i = 0; token != NULL; i++)
+	{
+		directory2 = malloc(strlen(token) + strlen(command) + 2);
+		strcpy(directory2, token);
+		strcat(directory2, "/");
+		strcat(directory2, command);
+		directory[i] = directory2;
 		token = strtok(NULL, ":");
 	}
-	printf("Esta en command_path, al final del file de command_path");
-	free(path_copy);
-	return (NULL);
+	directory[count] = NULL;
+	free(path);
+	return (directory);
 }
 
+/**
+ * get_env - searches for a variable
+ * @name: name of variable
+ *
+ * Return: pointer to variable
+ */
+char *get_env(char *name)
+{
+	int idx, jdx;
+	char *value;
 
+	for (idx = 0; environ[idx] != NULL; idx++)
+	{
+		for (jdx = 0; environ[idx][jdx] != '\0'; jdx++)
+		{
+			if (environ[idx][jdx] != name[jdx])
+			{
+				break;
+			}
+			else if (environ[idx][jdx + 1] == '=')
+			{
+				if (name[jdx + 1] == '\0')
+				{
+					value = strdup(&environ[idx][jdx + 2]);
+					return (value);
+				}
+
+			}
+		}
+	}
+	return (NULL);
+}

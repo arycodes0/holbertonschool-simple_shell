@@ -12,14 +12,18 @@
 #include <string.h> /* We use this for the strtok*/
 #include <stddef.h> /* We use this for size_t variable type */
 #include <sys/wait.h> /* We use this for the wait */
+#include <sys/stat.h>
+#include <sys/types.h>
 
 /* PROTOTYPES */
 int main(int ac, char **av);
 int execute_command(char **tokens,char **env);
 char **tokenization(char *str, char *delim);
 void free_env(char **env);
-char *command_path(char *command, char **env);
+char **command_path(char *command);
 void free_array(char **tokens);
+char *get_env(char *name);
+
 
 extern char **environ;
 
