@@ -1,4 +1,4 @@
- Simple Shell
+### Simple Shell
 
 ![Shell](https://upload.wikimedia.org/wikipedia/commons/1/1d/Animated_GNU_Bash_Unix_Shell_Prompt.gif)
 
