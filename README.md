@@ -34,16 +34,15 @@ Use system calls only when you need to.
 
 ## Description
 
-In this project we are working to write our own simple UNIX command interpreter. The function is going s to work on interactive mode, and non-interactive mode.
+In this project we are working to write our own simple UNIX command interpreter. The shell works on interactive mode, and non-interactive mode.
 
 ## General Concepts
 
 - Unix shell
 - Thompson Shell
 - Ken Thompson
-- Everything you need to know to star coding your own shell
+- Everything you need to know to start coding your own shell
 - Team work
-- Github contribution
 
 ## Sypnosis
 
@@ -53,39 +52,66 @@ In this project we are working to write our own simple UNIX command interpreter.
 * #include <sys/wait.h>
 * #include <string.h>
 * #include <stdlib.h>
+* #include <stddef.h>
+* #include <sys/stat.h>
+
 
 ## Output
 
-Unless specified otherwise, your program muts have the exact same output as sh (/bin/sh) as well as the exact same error output.\
+Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.\
 The only difference is when you print an error, the name of the program must be equivalent to your argv[0] (See bellow)
 
 ### **Example of error with sh:**
 
-```c $ echo "qwerty" | /bin/sh
+```c
+$ echo "qwerty" | /bin/sh
 /bin/sh: 1: qwerty: not found
 $ echo "qwerty"| /bin/../bin/sh
 /bin/../bin/sh: 1: qwerty: not found
+$
 ```
 
 ### **Same error with your program hsh:**
 ```c
 $ echo "qwerty" | ./hsh
-/hsh: 1: qwerty: not found $ echo "qwerty" | .l././hsh
+/hsh: 1: qwerty: not found
+$ echo "qwerty" | .l././hsh
 /././hsh: 1: qwerty: not found
+$
+```
+
+### **Example of interactive mode:**
+```c
+$ ./hsh
+$ /bin/ls
+hsh main.c shell.c
+$
+$ exit
 $
 ```
 
 ### **Example of non-intercative:**
 ```c
 $ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2
+/bin/ls
+/bin/ls
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
 ```
 
 ## Compilation
 
-`gcc -Wall -Werror •Wextra -pedantic -std=gnu89 *. c -0 hsh`
+`gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh`
 
-## List of Functions and System Calls
+## List of Allowed Functions and System Calls
 
+- all functions from string.h
 - access (man 2 access)
 - chdir (man 2 chdir)
 - close (man 2 close)
@@ -100,7 +126,7 @@ $ echo "/bin/ls" | ./hsh
 - getline (man 3 getline)
 - getpid (man 2 getpid)
 - isatty (man 3 isatty)
-- ill (man 2 kill)
+- kill (man 2 kill)
 - malloc (man 3 malloc)
 - open (man 2 open)
 - opendir (man 3 opendir)
@@ -125,4 +151,4 @@ $ echo "/bin/ls" | ./hsh
 
 ### License
 
-This project is licensed under the Holberto School Sofware Engineering Program
+:green_heart: This project is licensed under the Holberton School Sofware Engineering Program. :green_heart:
