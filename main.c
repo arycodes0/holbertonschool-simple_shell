@@ -24,10 +24,9 @@ int main(int ac, char **av)
 		if (flag == -1)
 		{
 			free(pointer);
-			/* printf("\n"); Print a newline for better formatting */
 			break; /* Exit the loop */
 		}
-		if (pointer[0] == '\n' || pointer[0] == ' ') /* Aqui hay un error */
+		if (pointer[0] == '\n' || pointer[0] == ' ')
 		{
 			free(pointer);
 			pointer = NULL;
