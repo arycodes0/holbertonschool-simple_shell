@@ -8,15 +8,15 @@
  * @env: Environment variables
  * Return: 1 succ, -1 if fails
  */
-void run_command(char **tokens,  struct stat sta, char **env)
+void run_command(char **tokens, struct stat sta, char **env)
 {
 	char **temp;
 	unsigned int e = 0;
-		if (tokens[0][0] != '/')
+		if (tokens[0][0] != '/') 
 		{
-			temp = command_path(tokens[0]);
+			temp = command_path(tokens[0]); 
 			for (e = 0; temp[e] != NULL; e++)
-			{
+			{	
 				if (stat(temp[e], &sta) == 0 && sta.st_mode & S_IXUSR)
 				{
 					free(tokens[0]);
@@ -43,7 +43,6 @@ int execute_command(char **tokens, char **env)
 {
 	unsigned int e = 0;
 	struct stat sta;
-
 	pid_t child_pid;
 
 	if (strcmp(tokens[0], "env") == 0)
@@ -81,8 +80,6 @@ int execute_command(char **tokens, char **env)
  * @str: The string to tokenize
  * @delim: The delimiter characters
  * Return: Array of tokens
- * We #define above to specify the max num
- *  of tokens and the max lenght of each token.
  */
 char **tokenization(char *str, char *delim)
 {
@@ -147,29 +144,27 @@ char **command_path(char *command)
  *
  * Return: pointer to variable
  */
-char *get_env(char *name)
+char *get_env(char *var_name)
 {
-	int idx, jdx;
+	int i, j;
 	char *value;
-
-	for (idx = 0; environ[idx] != NULL; idx++)
+	for (i = 0; environ[i] != NULL; i++)
 	{
-		for (jdx = 0; environ[idx][jdx] != '\0'; jdx++)
+		for (j = 0; environ[i][j] != '\0'; j++)
 		{
-			if (environ[idx][jdx] != name[jdx])
+			if (environ[i][j] != var_name[j])
 			{
 				break;
 			}
-			else if (environ[idx][jdx + 1] == '=')
+			else if (environ[i][j + 1] == '=')
 			{
-				if (name[jdx + 1] == '\0')
+				if (var_name[j + 1] == '\0')
 				{
-					value = strdup(&environ[idx][jdx + 2]);
+					value = strdup(&environ[i][j + 2]);
 					return (value);
 				}
 
 			}
 		}
-	}
 	return (NULL);
 }
