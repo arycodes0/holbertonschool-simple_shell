@@ -36,7 +36,6 @@ int main(int ac, char **av)
 		if (strcmp(tokens[0], "exit") == 0)
 		{
 			free(*tokens);
-			free(pointer);
 			exit(0); /* Here we exit the shell */
 		}
 		execute_command(tokens, environ);
