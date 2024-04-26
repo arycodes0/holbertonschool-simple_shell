@@ -15,7 +15,7 @@
 
 /* PROTOTYPES */
 int main(int ac, char **av);
-int execute_command(char **tokens,char *pointer,char **env);
+int execute_command(char **tokens,char **env);
 char **tokenization(char *str, char *delim);
 void free_env(char **env);
 char *command_path(char *command, char **env);

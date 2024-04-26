@@ -14,5 +14,5 @@ void free_array(char **tokens)
     free(tokens[i]);
     i++;
   }
-  free(tokens);
+  free(*tokens);
 }

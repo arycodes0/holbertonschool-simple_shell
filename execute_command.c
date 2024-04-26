@@ -7,17 +7,10 @@
  * @env: Environment variables
  * Return: 1 succ, -1 if fails
  */
-int execute_command(char **tokens, char *pointer, char **env)
+int execute_command(char **tokens, char **env)
 {
 	unsigned int e = 0;
 	pid_t child_pid;
-
-	if (strcmp(tokens[0], "exit") == 0)
-	{
-		free(*tokens);
-		free(pointer);
-		return (0);
-	}
 
 	if (strcmp(tokens[0], "env") == 0)
 	{
@@ -27,7 +20,6 @@ int execute_command(char **tokens, char *pointer, char **env)
 			write(1, "\n", 1);
 			e++;
 		}
-		free(*tokens);
 		return (1);
 	}
 	child_pid = fork();
@@ -42,9 +34,9 @@ int execute_command(char **tokens, char *pointer, char **env)
 		{
 			perror("execve");
 			free_array(tokens);
-			free(pointer);
 			exit(EXIT_FAILURE);
 		}
+		free_array(tokens);
 		
 		exit(98);
 	}
@@ -52,7 +44,6 @@ int execute_command(char **tokens, char *pointer, char **env)
 	{
 		wait(NULL);
 	}
-			free(*tokens);
 	return (1);
 }
 
